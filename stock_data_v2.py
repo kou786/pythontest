@@ -26,11 +26,13 @@ def get_stock_info():
         name = info.get("longName", "N/A")  # 会社名
         industry = info.get("industry", "N/A")  # 業種
         past_dividend = info.get("trailingAnnualDividendRate", "N/A")  # 過去配当金
-        
-        # 配当利回りを取得（小数 → パーセント変換）
+
+        # 配当利回りを取得
         dividend_yield = info.get("dividendYield", "N/A")
-        if dividend_yield != "N/A":
-            dividend_yield = round(dividend_yield * 100, 2)  # %に変換
+        if isinstance(dividend_yield, (int, float)):  # 数値型ならそのまま
+            dividend_yield = round(dividend_yield, 2)
+        else:
+            dividend_yield = "N/A"
 
         # 結果をJSONで返す
         data = {
